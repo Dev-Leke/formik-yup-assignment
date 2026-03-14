@@ -8,6 +8,17 @@ import {
   View,
 } from "react-native";
 
+type Props = {
+  label: string;
+  icon: string;
+  placeholder: string;
+  value: string;
+  onChangeText: (text: string) => void;
+  onBlur: (e: any) => void;
+  error?: string | false;
+  secureTextEntry?: boolean;
+};
+
 const InputField = ({
   label,
   icon,
@@ -15,14 +26,15 @@ const InputField = ({
   value,
   onChangeText,
   onBlur,
-  secureTextEntry,
+  secureTextEntry = false,
   error,
-}) => {
+}: Props) => {
   const [hidePassword, setHidePassword] = React.useState(secureTextEntry);
 
   return (
     <View style={styles.container}>
       {label && <Text style={styles.label}>{label}</Text>}
+
       <View style={[styles.inputContainer, error && styles.errorBorder]}>
         <Ionicons name={icon} size={20} color="#666" style={styles.leftIcon} />
 
@@ -86,6 +98,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontSize: 12,
   },
+
   label: {
     fontSize: 16,
     marginBottom: 5,
