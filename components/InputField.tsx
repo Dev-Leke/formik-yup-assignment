@@ -4,19 +4,27 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TextInputProps,
   TouchableOpacity,
   View,
 } from "react-native";
+import type { ComponentProps } from "react";
 
-type Props = {
+type IoniconName = ComponentProps<typeof Ionicons>["name"];
+
+type InputFieldProps = {
   label: string;
-  icon: string;
+  icon: IoniconName;
   placeholder: string;
   value: string;
   onChangeText: (text: string) => void;
-  onBlur: (e: any) => void;
-  error?: string | false;
+  onBlur: TextInputProps["onBlur"];
   secureTextEntry?: boolean;
+  error?: string;
+  keyboardType?: TextInputProps["keyboardType"];
+  autoCapitalize?: TextInputProps["autoCapitalize"];
+  autoCorrect?: boolean;
+  editable?: boolean;
 };
 
 const InputField = ({
@@ -28,14 +36,25 @@ const InputField = ({
   onBlur,
   secureTextEntry = false,
   error,
-}: Props) => {
+  keyboardType = "default",
+  autoCapitalize = "none",
+  autoCorrect = false,
+  editable = true,
+}: InputFieldProps) => {
   const [hidePassword, setHidePassword] = React.useState(secureTextEntry);
+  const [isFocused, setIsFocused] = React.useState(false);
 
   return (
     <View style={styles.container}>
       {label && <Text style={styles.label}>{label}</Text>}
-
-      <View style={[styles.inputContainer, error && styles.errorBorder]}>
+      <View
+        style={[
+          styles.inputContainer,
+          isFocused && styles.focusBorder,
+          error && styles.errorBorder,
+          !editable && styles.disabledContainer,
+        ]}
+      >
         <Ionicons name={icon} size={20} color="#666" style={styles.leftIcon} />
 
         <TextInput
@@ -43,8 +62,16 @@ const InputField = ({
           placeholder={placeholder}
           value={value}
           onChangeText={onChangeText}
-          onBlur={onBlur}
+          onBlur={(event) => {
+            setIsFocused(false);
+            onBlur?.(event);
+          }}
+          onFocus={() => setIsFocused(true)}
           secureTextEntry={hidePassword}
+          keyboardType={keyboardType}
+          autoCapitalize={autoCapitalize}
+          autoCorrect={autoCorrect}
+          editable={editable}
         />
 
         {secureTextEntry && (
@@ -76,8 +103,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 8,
-    paddingHorizontal: 10,
+    paddingHorizontal: 12,
     height: 50,
+    backgroundColor: "#fff",
   },
 
   leftIcon: {
@@ -89,12 +117,20 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 
+  focusBorder: {
+    borderColor: "#1f7a8c",
+  },
+
   errorBorder: {
-    borderColor: "red",
+    borderColor: "#d7263d",
+  },
+
+  disabledContainer: {
+    opacity: 0.65,
   },
 
   errorText: {
-    color: "red",
+    color: "#d7263d",
     marginTop: 5,
     fontSize: 12,
   },

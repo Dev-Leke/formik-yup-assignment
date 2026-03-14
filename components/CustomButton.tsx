@@ -1,14 +1,28 @@
 import React from "react";
-import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import { ActivityIndicator, TouchableOpacity, Text, StyleSheet } from "react-native";
 
-export default function CustomButton({ title, onPress, disabled }) {
+type CustomButtonProps = {
+  title: string;
+  onPress: () => void;
+  disabled?: boolean;
+  loading?: boolean;
+};
+
+export default function CustomButton({
+  title,
+  onPress,
+  disabled = false,
+  loading = false,
+}: CustomButtonProps) {
+  const isDisabled = disabled || loading;
+
   return (
     <TouchableOpacity
-      style={[styles.button, disabled && styles.disabled]}
+      style={[styles.button, isDisabled && styles.disabled]}
       onPress={onPress}
-      disabled={disabled}
+      disabled={isDisabled}
     >
-      <Text style={styles.text}>{title}</Text>
+      {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.text}>{title}</Text>}
     </TouchableOpacity>
   );
 }
