@@ -2,8 +2,8 @@ import CustomButton from "@/components/CustomButton";
 import InputField from "@/components/InputField";
 import { useRouter } from "expo-router";
 import { Formik } from "formik";
-import * as Yup from "yup";
 import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
+import * as Yup from "yup";
 
 type EmployeeFormValues = {
   employeeId: string;
@@ -21,7 +21,7 @@ const employeeSchema = Yup.object({
   fullName: Yup.string()
     .matches(
       /^[a-zA-Z][a-zA-Z\s'-]*$/,
-      "Full name can include letters, spaces, apostrophes, and hyphens"
+      "Full name can include letters, spaces, apostrophes, and hyphens",
     )
     .min(3, "Full name must be at least 3 characters")
     .max(60, "Full name must be 60 characters or less")
@@ -56,10 +56,15 @@ export default function EmployeeForm() {
 
   return (
     <View style={styles.screen}>
-      <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        keyboardShouldPersistTaps="handled"
+      >
         <View style={styles.card}>
           <Text style={styles.title}>Employee Information</Text>
-          <Text style={styles.subtitle}>Complete all fields before submitting.</Text>
+          <Text style={styles.subtitle}>
+            Complete all fields before submitting.
+          </Text>
 
           <Formik
             initialValues={initialValues}
@@ -69,7 +74,10 @@ export default function EmployeeForm() {
               await new Promise((resolve) => setTimeout(resolve, 1000));
               setSubmitting(false);
 
-              Alert.alert("Form Submitted", "Employee information saved successfully.");
+              Alert.alert(
+                "Form Submitted",
+                "Employee information saved successfully.",
+              );
               router.push({
                 pathname: "/(tabs)/profile",
                 params: {
@@ -102,7 +110,9 @@ export default function EmployeeForm() {
                   icon="card-outline"
                   placeholder="EMP-1234"
                   value={values.employeeId}
-                  onChangeText={(text) => setFieldValue("employeeId", text.toUpperCase())}
+                  onChangeText={(text) =>
+                    setFieldValue("employeeId", text.toUpperCase())
+                  }
                   onBlur={handleBlur("employeeId")}
                   autoCapitalize="characters"
                   autoCorrect={false}
@@ -148,7 +158,9 @@ export default function EmployeeForm() {
                   icon="mail-outline"
                   placeholder="employee@company.com"
                   value={values.workEmail}
-                  onChangeText={(text) => setFieldValue("workEmail", text.trim())}
+                  onChangeText={(text) =>
+                    setFieldValue("workEmail", text.trim())
+                  }
                   onBlur={handleBlur("workEmail")}
                   keyboardType="email-address"
                   autoCapitalize="none"
@@ -161,7 +173,10 @@ export default function EmployeeForm() {
                   placeholder="4035551234"
                   value={values.phoneNumber}
                   onChangeText={(text) =>
-                    setFieldValue("phoneNumber", text.replace(/\D/g, "").slice(0, 10))
+                    setFieldValue(
+                      "phoneNumber",
+                      text.replace(/\D/g, "").slice(0, 10),
+                    )
                   }
                   onBlur={handleBlur("phoneNumber")}
                   keyboardType="phone-pad"

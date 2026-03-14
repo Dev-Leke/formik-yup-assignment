@@ -1,5 +1,9 @@
-import React from "react";
-import { ActivityIndicator, TouchableOpacity, Text, StyleSheet } from "react-native";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 
 type CustomButtonProps = {
   title: string;
@@ -22,7 +26,11 @@ export default function CustomButton({
       onPress={onPress}
       disabled={isDisabled}
     >
-      {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.text}>{title}</Text>}
+      {loading ? (
+        <ActivityIndicator color="#fff" />
+      ) : (
+        <Text style={styles.text}>{title}</Text>
+      )}
     </TouchableOpacity>
   );
 }

@@ -2,8 +2,8 @@ import CustomButton from "@/components/CustomButton";
 import InputField from "@/components/InputField";
 import { useRouter } from "expo-router";
 import { Formik } from "formik";
-import * as Yup from "yup";
 import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
+import * as Yup from "yup";
 
 type SignUpValues = {
   fullName: string;
@@ -18,11 +18,13 @@ const signUpSchema = Yup.object({
     .min(3, "Full name must be at least 3 characters")
     .max(60, "Full name must be 60 characters or less")
     .required("Full name is required"),
-  email: Yup.string().email("Enter a valid email address").required("Email is required"),
+  email: Yup.string()
+    .email("Enter a valid email address")
+    .required("Email is required"),
   password: Yup.string()
     .matches(
       /^(?=.*[A-Za-z])(?=.*\d).+$/,
-      "Password must contain at least one letter and one number"
+      "Password must contain at least one letter and one number",
     )
     .min(8, "Password must be at least 8 characters")
     .required("Password is required"),
@@ -43,10 +45,15 @@ export default function SignUp() {
 
   return (
     <View style={styles.screen}>
-      <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        keyboardShouldPersistTaps="handled"
+      >
         <View style={styles.card}>
           <Text style={styles.title}>Create Account</Text>
-          <Text style={styles.subtitle}>Set up your employee app credentials</Text>
+          <Text style={styles.subtitle}>
+            Set up your employee app credentials
+          </Text>
 
           <Formik
             initialValues={initialValues}
@@ -56,7 +63,10 @@ export default function SignUp() {
               await new Promise((resolve) => setTimeout(resolve, 1000));
               setSubmitting(false);
               resetForm();
-              Alert.alert("Account created", "Sign in with your new credentials.");
+              Alert.alert(
+                "Account created",
+                "Sign in with your new credentials.",
+              );
               router.replace("/");
             }}
           >
@@ -113,7 +123,9 @@ export default function SignUp() {
                   onChangeText={handleChange("confirmPassword")}
                   onBlur={handleBlur("confirmPassword")}
                   secureTextEntry
-                  error={touched.confirmPassword ? errors.confirmPassword : undefined}
+                  error={
+                    touched.confirmPassword ? errors.confirmPassword : undefined
+                  }
                 />
 
                 <CustomButton

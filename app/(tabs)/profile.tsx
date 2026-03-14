@@ -36,7 +36,9 @@ export default function Profile() {
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.card}>
           <Text style={styles.title}>Employee Profile</Text>
-          <Text style={styles.subtitle}>Submitted details from the employee form</Text>
+          <Text style={styles.subtitle}>
+            Submitted details from the employee form
+          </Text>
 
           <FieldRow label="Employee ID" value={profileData.employeeId} />
           <FieldRow label="Full Name" value={profileData.fullName} />

@@ -2,8 +2,8 @@ import CustomButton from "@/components/CustomButton";
 import InputField from "@/components/InputField";
 import { useRouter } from "expo-router";
 import { Formik } from "formik";
-import * as Yup from "yup";
 import { Alert, StyleSheet, Text, View } from "react-native";
+import * as Yup from "yup";
 
 type SignInValues = {
   email: string;
@@ -11,7 +11,9 @@ type SignInValues = {
 };
 
 const signInSchema = Yup.object({
-  email: Yup.string().email("Enter a valid email address").required("Email is required"),
+  email: Yup.string()
+    .email("Enter a valid email address")
+    .required("Email is required"),
   password: Yup.string()
     .min(8, "Password must be at least 8 characters")
     .required("Password is required"),
