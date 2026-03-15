@@ -14,7 +14,10 @@ type SignUpValues = {
 
 const signUpSchema = Yup.object({
   fullName: Yup.string()
-    .matches(/^[a-zA-Z\s'-]+$/, "Full name can include letters, spaces, apostrophes, and hyphens")
+    .matches(
+      /^[a-zA-Z\s'-]+$/,
+      "Full name can include letters, spaces, apostrophes, and hyphens",
+    )
     .min(3, "Full name must be at least 3 characters")
     .max(60, "Full name must be 60 characters or less")
     .required("Full name is required"),
